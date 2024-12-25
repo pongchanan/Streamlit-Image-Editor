@@ -1,6 +1,7 @@
 import streamlit as st
 # PIl is for python image library
 from PIL import Image
+from PIL.ImageFilter import *
 
 st.markdown("<h1 style='text-align: center;'>Image Editor</h1>", unsafe_allow_html=True)
 st.markdown('---')
@@ -29,4 +30,19 @@ if image:
     
     st.markdown("<h2 style='text-align: center;'>Filter</h2>", unsafe_allow_html=True)
     st.markdown('---')
-    filter = st.selectbox("Filters", options=("None", "Blur", "Detail", "Emboss", "Smooth"))
+    filter_ = st.selectbox("Filters", options=("None", "Blur", "Detail", "Emboss", "Smooth"))
+    
+    s_btn = st.button("Submit")
+    if s_btn:
+        edited = img.resize((width, height)).rotate(degree)
+        filtered = edited
+        if filter_ != "None":
+            if filter_ == "Blur":
+                filtered = edited.filter(BLUR)
+            elif filter_ == "Detail":
+                filtered =edited.filter(DETAIL)
+            elif filter_ == "Emboss":
+                filtered = edited.filter(EMBOSS)
+            elif filter_ == "Smooth":
+                filtered = edited.filter(SMOOTH)
+        st.image(filtered)
